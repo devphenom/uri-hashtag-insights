@@ -73,6 +73,7 @@ const HashtagTrendCard: React.FC<HashtagTrendCardProps> = React.memo(({ data, er
               <Typography
                 variant="h4"
                 component="h1"
+                color="primary"
                 sx={{
                   fontWeight: 700,
                   mb: 0.5,

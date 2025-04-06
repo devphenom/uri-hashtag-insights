@@ -49,7 +49,7 @@ export default function Home() {
                 gutterBottom
                 sx={{
                   fontWeight: 700,
-                  background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
+                  background: "linear-gradient(45deg, rgb(205, 27, 120) 30%, rgb(236, 64, 122) 80%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   fontSize: { xs: "2rem", sm: "3rem", md: "3.75rem" },

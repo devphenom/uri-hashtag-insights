@@ -9,7 +9,7 @@ export const createAppTheme = (mode: PaletteMode): Theme => {
         ? {
             // Light mode palette values
             primary: {
-              main: "#2196F3",
+              main: "rgb(205, 27, 120)",
             },
             background: {
               default: "#f8f9fa",
@@ -19,7 +19,7 @@ export const createAppTheme = (mode: PaletteMode): Theme => {
         : {
             // Dark mode palette values
             primary: {
-              main: "#90CAF9",
+              main: "rgb(237, 100, 166)", // Lighter version for dark mode
             },
             background: {
               default: "#121212",
