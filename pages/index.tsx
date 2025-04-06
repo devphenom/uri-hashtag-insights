@@ -1,41 +1,137 @@
-import { Box, Button, Container, Link, Typography } from "@mui/material";
+import { Box, Chip, Container, IconButton, InputAdornment, Link, OutlinedInput, Snackbar, Stack, Typography } from "@mui/material";
+import { FormEvent, useState } from "react";
 
 import Head from "next/head";
+import SearchIcon from "@mui/icons-material/Search";
 import { Urbanist } from "next/font/google";
+import { useRouter } from "next/router";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
   subsets: ["latin"],
 });
 
+// Sample trending hashtags
+const trendingHashtags = ["uri", "uricreative", "nextjs", "react", "material-ui"];
+
 export default function Home() {
+  const router = useRouter();
+  const [hashtag, setHashtag] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const handleSearch = (e?: FormEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
+    if (hashtag.trim()) {
+      // Remove # if user included it
+      const cleanHashtag = hashtag.trim().replace(/^#/, "");
+      router.push(`/insights/${cleanHashtag}`);
+    }
+  };
+
+  const handleTrendingHashtagClick = (tag: string) => {
+    router.push(`/insights/${tag}`);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   return (
     <>
       <Head>
         <title>URI Hashtag Insights</title>
-        <meta name="description" content="Hashtag Insights application" />
+        <meta name="description" content="Analyze sentiment trends for hashtags" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={`${urbanist.variable}`}>
-        <Container maxWidth="md" sx={{ py: 4 }}>
-          <Box sx={{ textAlign: "center", mb: 4 }}>
-            <Typography variant="h2" component="h1" gutterBottom>
-              Hello World
-            </Typography>
-            <Button variant="contained" color="primary">
-              Search Hashtag
-            </Button>
-          </Box>
+        <Container maxWidth="md">
+          <Stack justifyContent="center" direction="column" sx={{ height: "100svh" }}>
+            <Box sx={{ textAlign: "center", mb: 6 }}>
+              <Typography
+                variant="h2"
+                component="h1"
+                gutterBottom
+                sx={{
+                  fontWeight: 700,
+                  background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Hashtag Sentiment Insights
+              </Typography>
+              <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
+                Analyze social media sentiment trends for any hashtag
+              </Typography>
 
-          <Box sx={{ mt: 8 }}>
-            <Typography variant="body1" color="text.secondary" align="center">
-              Built with Material UI and Next.js by{" "}
-              <Link underline="hover" href="https://github.com/devphenom" target="_blank" rel="noopener">
-                Phenom❤️
-              </Link>
-            </Typography>
-          </Box>
+              <OutlinedInput
+                fullWidth
+                placeholder="Please enter hashtag (e.g. uri)"
+                value={hashtag}
+                onChange={(e) => {
+                  // Check for spaces in the input
+                  if (e.target.value.includes(" ")) {
+                    // Show snackbar notification instead of alert
+                    setSnackbarMessage("Spaces are not allowed in hashtags");
+                    setSnackbarOpen(true);
+                    // Remove spaces from the input
+                    setHashtag(e.target.value.replace(/\s/g, ""));
+                  } else {
+                    setHashtag(e.target.value);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && hashtag.trim()) {
+                    handleSearch();
+                  }
+                }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Box sx={{ color: "text.secondary" }}>#</Box>
+                  </InputAdornment>
+                }
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton color="primary" onClick={handleSearch} disabled={!hashtag.trim()}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
+                sx={{
+                  mb: 2,
+                  maxWidth: 500,
+                  "&.MuiOutlinedInput-root": {
+                    borderRadius: "2rem",
+                  },
+                }}
+              />
+
+              <Typography variant="body1" gutterBottom>
+                Trending Hashtags:
+              </Typography>
+              <Stack direction="row" gap={0.5} justifyContent="center" flexWrap="wrap">
+                {trendingHashtags.map((tag) => (
+                  <Chip key={tag} label={`#${tag}`} onClick={() => handleTrendingHashtagClick(tag)} sx={{ m: 0.5 }} color="primary" variant="outlined" clickable />
+                ))}
+              </Stack>
+            </Box>
+
+            <Box justifySelf="end">
+              <Typography variant="body2" color="text.secondary" align="center">
+                Built with Material UI and Next.js by{" "}
+                <Link underline="hover" href="https://github.com/devphenom" target="_blank" rel="noopener">
+                  Phenom❤️
+                </Link>
+              </Typography>
+            </Box>
+          </Stack>
+
+          {/* Add Snackbar for notifications */}
+          <Snackbar open={snackbarOpen} autoHideDuration={4000} onClose={handleSnackbarClose} message={snackbarMessage} anchorOrigin={{ vertical: "top", horizontal: "center" }} />
         </Container>
       </div>
     </>
