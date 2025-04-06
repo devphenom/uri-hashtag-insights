@@ -1,18 +1,11 @@
 import { Box, Chip, Container, IconButton, InputAdornment, Link, OutlinedInput, Snackbar, Stack, Typography } from "@mui/material";
 import { FormEvent, useState } from "react";
+import { trendingHashtags, urbanist } from "@/lib/util";
 
-import Head from "next/head";
+import DarkModeToggle from "../components/DarkModeToggle";
+import MetaTags from "@/components/MetaTags";
 import SearchIcon from "@mui/icons-material/Search";
-import { Urbanist } from "next/font/google";
 import { useRouter } from "next/router";
-
-const urbanist = Urbanist({
-  variable: "--font-urbanist",
-  subsets: ["latin"],
-});
-
-// Sample trending hashtags
-const trendingHashtags = ["uri", "uricreative", "nextjs", "react", "material-ui"];
 
 export default function Home() {
   const router = useRouter();
@@ -41,16 +34,15 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>URI Hashtag Insights</title>
-        <meta name="description" content="Analyze sentiment trends for hashtags" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <MetaTags title="URI Hashtag Insights" description="Analyze sentiment trends for hashtags" />
+
       <div className={`${urbanist.variable}`}>
         <Container maxWidth="md" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
           <Stack justifyContent="center" direction="column" sx={{ height: "100svh", py: { xs: 4, md: 0 } }}>
             <Box sx={{ textAlign: "center", mb: { xs: 4, sm: 6 }, px: { xs: 1, sm: 2 } }}>
+              <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+                <DarkModeToggle />
+              </Box>
               <Typography
                 variant="h2"
                 component="h1"
