@@ -48,9 +48,9 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={`${urbanist.variable}`}>
-        <Container maxWidth="md">
-          <Stack justifyContent="center" direction="column" sx={{ height: "100svh" }}>
-            <Box sx={{ textAlign: "center", mb: 6 }}>
+        <Container maxWidth="md" sx={{ px: { xs: 2, sm: 3, md: 4 } }}>
+          <Stack justifyContent="center" direction="column" sx={{ height: "100svh", py: { xs: 4, md: 0 } }}>
+            <Box sx={{ textAlign: "center", mb: { xs: 4, sm: 6 }, px: { xs: 1, sm: 2 } }}>
               <Typography
                 variant="h2"
                 component="h1"
@@ -60,11 +60,19 @@ export default function Home() {
                   background: "linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
+                  fontSize: { xs: "2rem", sm: "3rem", md: "3.75rem" },
                 }}
               >
                 Hashtag Sentiment Insights
               </Typography>
-              <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
+              <Typography
+                variant="h6"
+                color="text.secondary"
+                sx={{
+                  mb: 4,
+                  fontSize: { xs: "1rem", sm: "1.25rem" },
+                }}
+              >
                 Analyze social media sentiment trends for any hashtag
               </Typography>
 
@@ -103,7 +111,8 @@ export default function Home() {
                 }
                 sx={{
                   mb: 2,
-                  maxWidth: 500,
+                  maxWidth: { xs: "100%", sm: 500 },
+                  mx: "auto",
                   "&.MuiOutlinedInput-root": {
                     borderRadius: "2rem",
                   },
@@ -113,14 +122,14 @@ export default function Home() {
               <Typography variant="body1" gutterBottom>
                 Trending Hashtags:
               </Typography>
-              <Stack direction="row" gap={0.5} justifyContent="center" flexWrap="wrap">
+              <Stack direction="row" gap={0.5} justifyContent="center" flexWrap="wrap" sx={{ px: { xs: 1, sm: 2 } }}>
                 {trendingHashtags.map((tag) => (
                   <Chip key={tag} label={`#${tag}`} onClick={() => handleTrendingHashtagClick(tag)} sx={{ m: 0.5 }} color="primary" variant="outlined" clickable />
                 ))}
               </Stack>
             </Box>
 
-            <Box justifySelf="end">
+            <Box>
               <Typography variant="body2" color="text.secondary" align="center">
                 Built with Material UI and Next.js by{" "}
                 <Link underline="hover" href="https://github.com/devphenom" target="_blank" rel="noopener">
